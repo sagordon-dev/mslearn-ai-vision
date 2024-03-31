@@ -116,7 +116,32 @@ def AnalyzeImage(image_filename, image_data, cv_client):
         fig.savefig(outputfile)
         print('  Results saved in', outputfile)
 
-    # Get image people
+    # Get people in image
+    if result.people is not None:
+        print("\nPeople in image:")
+
+        # Prepare image for drawing
+        image = image.open(image_filename)
+        fig = plt.figure(figsize=(image.width/100, image.height/100))
+        plt.axis('off')
+        draw = ImageDraw.Draw(image)
+        color = 'cyan'
+
+        for detected_person in result.people.list:
+            # Draw object bounding box
+            r = detected_person.bounding_box
+            bounding_box = ((r.x, r.y), (r.x + r.width, r.y + r.height))
+            draw.rectangle(bounding_box, outline=color, width=3)
+
+            # Return the confidence of the person detected
+            #print(" {} (confidence: {:.2f}%)".format(detected_people.bounding_box, detected_people.confidence * 100))
+
+        # Save annotated image
+        plt.imshow(image)
+        plt.tight_layout(pad=0)
+        outputfile = 'people.jpg'
+        fig.savefig(outputfile)
+        print('  Results saved in', outputfile)
 
 
 def BackgroundForeground(endpoint, key, image_file):
