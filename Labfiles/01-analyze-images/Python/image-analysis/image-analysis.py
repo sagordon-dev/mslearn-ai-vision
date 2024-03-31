@@ -121,7 +121,7 @@ def AnalyzeImage(image_filename, image_data, cv_client):
         print("\nPeople in image:")
 
         # Prepare image for drawing
-        image = image.open(image_filename)
+        image = Image.open(image_filename)
         fig = plt.figure(figsize=(image.width/100, image.height/100))
         plt.axis('off')
         draw = ImageDraw.Draw(image)
